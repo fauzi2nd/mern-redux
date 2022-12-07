@@ -27,11 +27,7 @@ const createUser = asyncHandler(async (req, res) => {
 
     const user = await User.create(req.body);
     if (user) {
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-        });
+        res.status(201).json("User create successfully");
     } else {
         res.status(400);
         throw new Error('Invalid user data');
@@ -108,7 +104,10 @@ const deleteUserById = asyncHandler(async (req, res) => {
     const deletedUserById = await User.deleteOne({
         _id: req.params.id,
     });
-    res.status(200).json(deletedUserById);
+    
+    if(deletedUserById) {
+        res.status(200).json("Delete user successfully");
+    } 
 })
 
 module.exports = {

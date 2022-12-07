@@ -24,15 +24,9 @@ const UserFormAdd = () => {
   );
 
   useEffect(() => {
-    if (users.length !== 0) {
-      dispatch(reset());
+    if (isCreated) {
+      navigate("/users");
     }
-
-    return () => {
-      if (isCreated) {
-        navigate("/users");
-      }
-    };
   }, [users, isCreated, navigate, dispatch]);
 
   let load = "button is-info is-fullwidth ";
@@ -48,7 +42,7 @@ const UserFormAdd = () => {
     roles,
   } = formData;
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const userData = {
       name,

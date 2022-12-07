@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import userService from './userService'
 
+const users = JSON.parse(localStorage.getItem('users'))
+
 const initialState = {
-  users: [],
+  users: users ? users : [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -83,7 +85,8 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.isCreated = true
+        state.isCreated = true        
+        state.message = action.payload
         state.users.push(action.payload)
       })
       .addCase(createUser.rejected, (state, action) => {
@@ -111,7 +114,8 @@ export const userSlice = createSlice({
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.isDeleted = true
+        state.isDeleted = true        
+        state.message = action.payload
         state.users = state.users.filter(
           (user) => user._id !== action.payload.id
         )

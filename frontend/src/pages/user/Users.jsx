@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Layout from "../Layout";
 import Userlist from "../../components/user/Userlist";
-import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,10 +10,10 @@ const Users = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      console.log(message);
     }
 
-    if (!user) {
+    if (!user.token) {
       navigate("/login");
     }
 

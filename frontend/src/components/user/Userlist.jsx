@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { getUsers, deleteUser } from "../../features/user/userSlice";
 
 const Userlist = () => {
@@ -20,10 +21,14 @@ const Userlist = () => {
       dispatch(getUsers());
     }
 
-    if(isDeleted) {
-      dispatch(getUsers());
+    if (isDeleted) {
+      toast.success(message);
     }
   }, [users, navigate, isDeleted, isLoading, isError, message, dispatch]);
+
+  if (isDeleted) {
+    toast.success(message);
+  }
 
   return (
     <div>
@@ -43,28 +48,30 @@ const Userlist = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
-            <tr key={user._id}>
-              <td>{index + 1}</td>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.roles}</td>
-              <td>
-                <Link
-                  to={`/users/edit/${user._id}`}
-                  className="button is-small is-info"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => dispatch(deleteUser(user._id))}
-                  className="button is-small is-danger"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {users.map((user, index) => {
+            return (
+              <tr key={user._id}>
+                <td>{index + 1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.roles}</td>
+                <td>
+                  <Link
+                    to={`/users/edit/${user._id}`}
+                    className="button is-small is-info"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => dispatch(deleteUser(user._id))}
+                    className="button is-small is-danger"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
